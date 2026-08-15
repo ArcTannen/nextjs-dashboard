@@ -118,12 +118,16 @@ export async function updateInvoice(
 }
 
 export async function deleteInvoice(id: string) {
+  // NOTE: Needs to return nothing (void) to be used as form action, otherwise build/deploy fails.
+  // Others have gotten this working with success/error messages returned, but it wasn't clear how they got it to build.
+
   // Delete data from database
   try {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
+    //return { message: "Invoice deleted." };
   } catch (error) {
     console.error(error);
-    return { message: "Database Error: Failed to delete invoice." };
+    //return { message: "Database Error: Failed to delete invoice." };
   }
 
   // Revalidate cache for invoices page
